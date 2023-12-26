@@ -19,6 +19,10 @@
       }
     ],
     "paths": {
+      "@/components/*": ["./src/layouts/components/*"],
+      "@/shortcodes/*": ["./src/layouts/shortcodes/*"],
+      "@/partials/*": ["./src/layouts/partials/*"],
+      "@/helpers/*": ["./src/layouts/helpers/*"],
       "@/*": ["./src/*"]
     }
   },
