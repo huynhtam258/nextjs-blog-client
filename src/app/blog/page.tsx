@@ -9,6 +9,8 @@ import PostSidebar from "@/partials/PostSidebar";
 import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
 import { convertSlugUrl, sendRequest } from "@/utils/api";
+import { postConverter } from "@/converters/post.converter";
+import { getPosts } from "@/services/post.service";
 const { blog_folder, pagination } = config.settings;
 
 // for all regular pages
@@ -19,30 +21,10 @@ const Posts = async () => {
   const allCategories = getAllTaxonomy(blog_folder, "categories");
   const categories = getTaxonomy(blog_folder, "categories");
   const tags = getTaxonomy(blog_folder, "tags");
-  const sortedPosts = sortByDate(posts);
-  const totalPages = Math.ceil(posts.length / pagination);
-  const currentPosts = sortedPosts.slice(0, pagination);
 
-  const res = await sendRequest<any>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post`,
-    method: "GET",
-  }) as any
+  const res = await getPosts() 
   const postList = res.data.map((post: any): Post => {
-    return {
-      frontmatter: {
-        title: post.title,
-        meta_title: post.title,
-        description: post.description,
-        image: '/images/image-placeholder.png',
-        categories: [],
-        author: 'string',
-        tags: [],
-        date: post.publish_date,
-        draft: false,
-      },
-      slug: convertSlugUrl(post.title) + `-${+ post.id}.html`,
-      content: post.content
-    }
+    return postConverter(post)
   })
   
   return (
@@ -68,7 +50,7 @@ const Posts = async () => {
               <Pagination
                 section={blog_folder}
                 currentPage={1}
-                totalPages={totalPages}
+                totalPages={2}
               />
             </div>
 

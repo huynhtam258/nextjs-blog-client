@@ -23,6 +23,8 @@
       "@/shortcodes/*": ["./src/layouts/shortcodes/*"],
       "@/partials/*": ["./src/layouts/partials/*"],
       "@/helpers/*": ["./src/layouts/helpers/*"],
+      "@/converters/*": ["./src/converters/*"],
+      "@/services/*": ["./src/services/*"],
       "@/*": ["./src/*"]
     }
   },

@@ -2,6 +2,7 @@ import BlogCard from "@/components/BlogCard";
 import Disqus from "@/components/Disqus";
 import Share from "@/components/Share";
 import config from "@/config/config.json";
+import { postConverter } from "@/converters/post.converter";
 import ImageFallback from "@/helpers/ImageFallback";
 import MDXContent from "@/helpers/MDXContent";
 import { getSinglePage } from "@/lib/contentParser";
@@ -9,6 +10,7 @@ import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import SeoMeta from "@/partials/SeoMeta";
+import { getPostDetail, getPosts } from "@/services/post.service";
 import { Post } from "@/types";
 import { convertSlugUrl, getIdBySlug, sendRequest } from "@/utils/api";
 import Link from "next/link";
@@ -40,48 +42,14 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
   // const post = posts.filter((page) => page.slug === params.slug)[0];
   const id = getIdBySlug(params.slug)
 
-  const res = await sendRequest<any>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post`,
-    method: "GET",
-  }) as any
+  const res = await getPosts()
   const postList = res.data.map((post: any): Post => {
-    return {
-      frontmatter: {
-        title: post.title,
-        meta_title: post.title,
-        description: post.description,
-        image: '/images/image-placeholder.png',
-        categories: [],
-        author: 'string',
-        tags: [],
-        date: post.publish_date,
-        draft: false,
-      },
-      slug: convertSlugUrl(post.title) + `-${+ post.id}.html`,
-      content: post.content
-    }
+    return postConverter(post) 
   })
 
-  const postResponse = await sendRequest<any>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post/${id}`,
-    method: "GET",
-  }) as any
-
-  const post = {
-    frontmatter: {
-      title: postResponse.title,
-      meta_title: postResponse.title,
-      description: postResponse.description,
-      image: '/images/image-placeholder.png',
-      categories: [],
-      author: 'string',
-      tags: [],
-      date: postResponse.publish_date,
-      draft: false,
-    },
-    slug: convertSlugUrl(postResponse.title) + `-${+ postResponse.id}.html`,
-    content: postResponse.content
-  }
+  const postResponse = await getPostDetail(id)
+  
+  const post = postConverter(postResponse)
   
   const { frontmatter, content } = post;
   const {
