@@ -8,10 +8,11 @@ import PageHeader from "@/partials/PageHeader";
 import PostSidebar from "@/partials/PostSidebar";
 import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
+import { convertSlugUrl, sendRequest } from "@/utils/api";
 const { blog_folder, pagination } = config.settings;
 
 // for all regular pages
-const Posts = () => {
+const Posts = async () => {
   const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
   const { title, meta_title, description, image } = postIndex.frontmatter;
   const posts: Post[] = getSinglePage(blog_folder);
@@ -22,6 +23,28 @@ const Posts = () => {
   const totalPages = Math.ceil(posts.length / pagination);
   const currentPosts = sortedPosts.slice(0, pagination);
 
+  const res = await sendRequest<any>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post`,
+    method: "GET",
+  }) as any
+  const postList = res.data.map((post: any): Post => {
+    return {
+      frontmatter: {
+        title: post.title,
+        meta_title: post.title,
+        description: post.description,
+        image: '/images/image-placeholder.png',
+        categories: [],
+        author: 'string',
+        tags: [],
+        date: post.publish_date,
+        draft: false,
+      },
+      slug: convertSlugUrl(post.title) + `-${+ post.id}.html`,
+      content: post.content
+    }
+  })
+  
   return (
     <>
       <SeoMeta
@@ -36,7 +59,7 @@ const Posts = () => {
           <div className="row gx-5">
             <div className="lg:col-8">
               <div className="row">
-                {currentPosts.map((post: any, index: number) => (
+                {postList.map((post: any, index: number) => (
                   <div key={index} className="mb-14 md:col-6">
                     <BlogCard data={post} />
                   </div>

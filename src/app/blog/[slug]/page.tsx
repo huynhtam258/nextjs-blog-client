@@ -10,6 +10,7 @@ import similerItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
+import { convertSlugUrl, getIdBySlug, sendRequest } from "@/utils/api";
 import Link from "next/link";
 import {
   FaRegClock,
@@ -23,20 +24,65 @@ const { blog_folder } = config.settings;
 export const dynamicParams = false;
 
 // generate static params
-export const generateStaticParams: () => { single: string }[] = () => {
+// export const generateStaticParams: () => { single: string }[] = () => {
+//   const posts: Post[] = getSinglePage(blog_folder);
+
+//   const paths = posts.map((post) => ({
+//     single: post.slug!,
+//   }));
+  
+//   return paths;
+// };
+
+const PostSingle = async ({ params }: { params: { slug: string } }) => {
   const posts: Post[] = getSinglePage(blog_folder);
 
-  const paths = posts.map((post) => ({
-    single: post.slug!,
-  }));
+  // const post = posts.filter((page) => page.slug === params.slug)[0];
+  const id = getIdBySlug(params.slug)
 
-  return paths;
-};
+  const res = await sendRequest<any>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post`,
+    method: "GET",
+  }) as any
+  const postList = res.data.map((post: any): Post => {
+    return {
+      frontmatter: {
+        title: post.title,
+        meta_title: post.title,
+        description: post.description,
+        image: '/images/image-placeholder.png',
+        categories: [],
+        author: 'string',
+        tags: [],
+        date: post.publish_date,
+        draft: false,
+      },
+      slug: convertSlugUrl(post.title) + `-${+ post.id}.html`,
+      content: post.content
+    }
+  })
 
-const PostSingle = ({ params }: { params: { single: string } }) => {
-  const posts: Post[] = getSinglePage(blog_folder);
-  const post = posts.filter((page) => page.slug === params.single)[0];
+  const postResponse = await sendRequest<any>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/post/${id}`,
+    method: "GET",
+  }) as any
 
+  const post = {
+    frontmatter: {
+      title: postResponse.title,
+      meta_title: postResponse.title,
+      description: postResponse.description,
+      image: '/images/image-placeholder.png',
+      categories: [],
+      author: 'string',
+      tags: [],
+      date: postResponse.publish_date,
+      draft: false,
+    },
+    slug: convertSlugUrl(postResponse.title) + `-${+ postResponse.id}.html`,
+    content: postResponse.content
+  }
+  
   const { frontmatter, content } = post;
   const {
     title,
@@ -48,7 +94,7 @@ const PostSingle = ({ params }: { params: { single: string } }) => {
     date,
     tags,
   } = frontmatter;
-  const similarPosts = similerItems(post, posts, post.slug!);
+  const similarPosts = similerItems(post, postList, post.slug!);
 
   return (
     <>
