@@ -1,5 +1,5 @@
 ---
-title: "Hey, I am John Doe!"
+title: "Chào mọi người, nơi đây đây chúng ta chia sẻ về kiến thức lập trình"
 meta_title: "About"
 description: "this is meta description"
 image: "/images/avatar.png"

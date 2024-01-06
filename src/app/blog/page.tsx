@@ -1,31 +1,31 @@
 import BlogCard from "@/components/BlogCard";
 import Pagination from "@/components/Pagination";
 import config from "@/config/config.json";
-import { getListPage, getSinglePage } from "@/lib/contentParser";
+import { getListPage } from "@/lib/contentParser";
 import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser";
-import { sortByDate } from "@/lib/utils/sortFunctions";
+// import { sortByDate } from "@/lib/utils/sortFunctions";
 import PageHeader from "@/partials/PageHeader";
 import PostSidebar from "@/partials/PostSidebar";
 import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
-import { convertSlugUrl, sendRequest } from "@/utils/api";
+// import { convertSlugUrl, sendRequest } from "@/utils/api";
 import { postConverter } from "@/converters/post.converter";
 import { getPosts } from "@/services/post.service";
-const { blog_folder, pagination } = config.settings;
+import { getCategories } from "@/services/category.service";
+const { blog_folder } = config.settings;
 
 // for all regular pages
 const Posts = async () => {
   const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
   const { title, meta_title, description, image } = postIndex.frontmatter;
-  const posts: Post[] = getSinglePage(blog_folder);
-  const allCategories = getAllTaxonomy(blog_folder, "categories");
-  const categories = getTaxonomy(blog_folder, "categories");
-  const tags = getTaxonomy(blog_folder, "tags");
 
-  const res = await getPosts() 
-  const postList = res.data.map((post: any): Post => {
+  const postsResponse = await getPosts() 
+  const postList = postsResponse.data.map((post: any): Post => {
     return postConverter(post)
   })
+
+  const categoriesResponse = await getCategories()
+  const categoryList = categoriesResponse.map((category: any) => category.name)
   
   return (
     <>
@@ -38,7 +38,7 @@ const Posts = async () => {
       <PageHeader title={postIndex.frontmatter.title} />
       <section className="section">
         <div className="container">
-          <div className="row gx-5">
+          <div className="row">
             <div className="lg:col-8">
               <div className="row">
                 {postList.map((post: any, index: number) => (
@@ -55,9 +55,8 @@ const Posts = async () => {
             </div>
 
             <PostSidebar
-              categories={categories}
-              tags={tags}
-              allCategories={allCategories}
+              categories={categoryList}
+              tags={['1', '2', '3', '4', '5', '6']}
             />
           </div>
         </div>

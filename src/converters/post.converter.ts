@@ -6,7 +6,7 @@ export const postConverter = (post: any) => {
       title: post.title,
       meta_title: post.title,
       description: post.description,
-      image: '/images/image-placeholder.png',
+      image: post.thumbnail || '/images/image-placeholder.png',
       categories: [],
       author: `${post.user.first_name} ${post.user.last_name}`,
       tags: [],
