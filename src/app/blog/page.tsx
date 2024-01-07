@@ -23,6 +23,8 @@ const Posts = async () => {
   const postList = postsResponse.data.map((post: any): Post => {
     return postConverter(post)
   })
+  const totalPages = postsResponse.lastPage
+  const currentPage = postsResponse.currentPage
 
   const categoriesResponse = await getCategories()
   const categoryList = categoriesResponse.map((category: any) => category.name)
@@ -49,8 +51,8 @@ const Posts = async () => {
               </div>
               <Pagination
                 section={blog_folder}
-                currentPage={1}
-                totalPages={2}
+                currentPage={currentPage}
+                totalPages={totalPages}
               />
             </div>
 
