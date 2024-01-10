@@ -1,31 +1,39 @@
-import BlogCard from "@/components/BlogCard";
-import Pagination from "@/components/Pagination";
 import config from "@/config/config.json";
 import { getListPage } from "@/lib/contentParser";
-import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser";
-// import { sortByDate } from "@/lib/utils/sortFunctions";
 import PageHeader from "@/partials/PageHeader";
 import PostSidebar from "@/partials/PostSidebar";
 import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
-// import { convertSlugUrl, sendRequest } from "@/utils/api";
 import { postConverter } from "@/converters/post.converter";
 import { getPosts } from "@/services/post.service";
 import { getCategories } from "@/services/category.service";
+import PostList from "@/components/PostList";
 const { blog_folder } = config.settings;
 
-// for all regular pages
-const Posts = async () => {
+interface IProps {
+  searchParams: {
+    page?: number
+  }
+}
+const Posts = async (props: IProps) => {
+  const { searchParams } = props
+  
+  let totalPages = 0
+  let currentPage = searchParams.page || 1
+  let postList = [] as Post[]
+
+  const getPostList = async () => {
+    const postsResponse = await getPosts({ page: currentPage })
+    postList = postsResponse.data.map((post: any): Post => {
+      return postConverter(post)
+    })
+    totalPages = postsResponse.lastPage
+    currentPage = postsResponse.currentPage
+  }
+  await getPostList()
   const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
   const { title, meta_title, description, image } = postIndex.frontmatter;
-
-  const postsResponse = await getPosts() 
-  const postList = postsResponse.data.map((post: any): Post => {
-    return postConverter(post)
-  })
-  const totalPages = postsResponse.lastPage
-  const currentPage = postsResponse.currentPage
-
+  
   const categoriesResponse = await getCategories()
   const categoryList = categoriesResponse.map((category: any) => category.name)
   
@@ -38,21 +46,15 @@ const Posts = async () => {
         image={image}
       />
       <PageHeader title={postIndex.frontmatter.title} />
+      
       <section className="section">
         <div className="container">
           <div className="row">
             <div className="lg:col-8">
-              <div className="row">
-                {postList.map((post: any, index: number) => (
-                  <div key={index} className="mb-14 md:col-6">
-                    <BlogCard data={post} />
-                  </div>
-                ))}
-              </div>
-              <Pagination
-                section={blog_folder}
-                currentPage={currentPage}
+              <PostList
+                postList={postList}
                 totalPages={totalPages}
+                currentPage={currentPage}
               />
             </div>
 

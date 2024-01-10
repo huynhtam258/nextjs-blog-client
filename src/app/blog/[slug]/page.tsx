@@ -39,13 +39,8 @@ export const dynamicParams = false;
 const PostSingle = async ({ params }: { params: { slug: string } }) => {
   const posts: Post[] = getSinglePage(blog_folder);
 
-  // const post = posts.filter((page) => page.slug === params.slug)[0];
   const id = getIdBySlug(params.slug)
 
-  const res = await getPosts()
-  const postList = res.data.map((post: any): Post => {
-    return postConverter(post) 
-  })
 
   const postResponse = await getPostDetail(id)
   
@@ -62,7 +57,7 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
     date,
     tags,
   } = frontmatter;
-  const similarPosts = similerItems(post, postList, post.slug!);
+  // const similarPosts = similerItems(post, postList, post.slug!);
 
   function createMarkup() {
     return { __html: content || '' };
@@ -161,11 +156,11 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
           <div className="section pb-0">
             <h2 className="h3 mb-12 text-center">Related Posts</h2>
             <div className="row justify-center">
-              {similarPosts.map((post) => (
+              {/* {similarPosts.map((post) => (
                 <div key={post.slug} className="lg:col-4 mb-7">
                   <BlogCard data={post} />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>

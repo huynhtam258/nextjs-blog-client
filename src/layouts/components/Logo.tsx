@@ -11,10 +11,6 @@ const Logo = ({ src }: { src?: string }) => {
   const {
     logo,
     logo_darkmode,
-    logo_width,
-    logo_height,
-    logo_text,
-    title,
   }: {
     logo: string;
     logo_darkmode: string;
@@ -35,24 +31,8 @@ const Logo = ({ src }: { src?: string }) => {
   const logoPath = src ? src : resolvedLogo;
 
   return (
-    <Link href="/" className="navbar-brand inline-block">
-      {logoPath ? (
-        <Image
-          width={logo_width.replace("px", "") * 2}
-          height={logo_height.replace("px", "") * 2}
-          src={logoPath}
-          alt={title}
-          priority
-          style={{
-            height: logo_height.replace("px", "") + "px",
-            width: logo_width.replace("px", "") + "px",
-          }}
-        />
-      ) : logo_text ? (
-        logo_text
-      ) : (
-        title
-      )}
+    <Link href="/" className="navbar-brand inline-block text-2xl">
+      Programming village
     </Link>
   );
 };
