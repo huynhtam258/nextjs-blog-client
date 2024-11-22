@@ -35,6 +35,12 @@ input#nav-toggle:checked ~ #nav-menu {
 //   @apply mx-3;
 // }
 
+.nav-item {
+  .active {
+    border-bottom: 1px solid;
+  }
+}
+
 .nav-link {
   @apply block p-3 font-semibold text-dark transition hover:text-primary dark:text-darkmode-dark lg:px-2 lg:py-3;
 }

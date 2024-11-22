@@ -5,36 +5,32 @@
       "url": "/"
     },
     {
-      "name": "Giới thiệu",
-      "url": "/about"
-    },
-    {
       "name": "Bài viết",
       "url": "/blog"
     },
     {
-      "name": "Pages",
+      "name": "Giới thiệu",
+      "url": "/about"
+    },
+    {
+      "name": "Nội dung khác",
       "url": "",
       "hasChildren": true,
       "children": [
         {
-          "name": "Contact",
+          "name": "Liên hệ",
           "url": "/contact"
         },
         {
-          "name": "Blog",
-          "url": "/blog"
-        },
-        {
-          "name": "Authors",
+          "name": "Danh sách tác giả",
           "url": "/authors"
         },
         {
-          "name": "Categories",
+          "name": "Thể loại",
           "url": "/categories"
         },
         {
-          "name": "Search",
+          "name": "Tìm kiếm",
           "url": "/search"
         },
         {

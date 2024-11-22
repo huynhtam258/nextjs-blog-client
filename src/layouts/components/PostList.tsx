@@ -7,15 +7,16 @@ const { blog_folder } = config.settings;
 interface IProps {
   postList: any[],
   totalPages: number,
-  currentPage: number
+  currentPage: number,
+  classColumn?: string
 }
 const PostList = (props: IProps) => {
-  const { postList, totalPages, currentPage } = props
+  const { postList, totalPages, currentPage, classColumn } = props
   return (
     <>
       <div className="row">
         {postList.map((post: any, index: number) => (
-          <div key={`post-${index}`} className="mb-14 md:col-6">
+          <div key={`post-${index}`} className={`mb-14 ${classColumn || 'md:col-6'}`}>
             <BlogCard data={post} />
           </div>
         ))}

@@ -154,7 +154,7 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
 
           {/* <!-- Related posts --> */}
           <div className="section pb-0">
-            <h2 className="h3 mb-12 text-center">Related Posts</h2>
+            <h2 className="h3 mb-12 text-center">Bài viết liên quan</h2>
             <div className="row justify-center">
               {/* {similarPosts.map((post) => (
                 <div key={post.slug} className="lg:col-4 mb-7">
