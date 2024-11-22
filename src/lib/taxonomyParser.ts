@@ -12,9 +12,9 @@ export const getTaxonomy = (folder: string, name: string): Array<string> => {
       taxonomies.push(slugify(taxonomyArray[j]));
     }
   }
-  const taxonomy = [...new Set(taxonomies)];
-
-  return taxonomy;
+  // const taxonomy = [...new Set(taxonomies)];
+  const taxonomy = new Set(taxonomies)
+  return [];
 };
 
 export const getAllTaxonomy = (folder: string, name: string) => {

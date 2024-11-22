@@ -6,7 +6,7 @@ const Home = () => {
     <section className='section pt-14'>
       <div className='container'>
         <div className='row justify-content'>
-          <h1>Home</h1>
+          <h1>Trang chủ</h1>
         </div>
       </div>
     </section>

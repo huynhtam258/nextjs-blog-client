@@ -18,6 +18,7 @@ const BlogCard = ({ data }: { data: Post }) => {
           alt={title}
           width={445}
           height={230}
+          styleImg={{ maxHeight: '272px' }}
         />
       )}
       <h4 className="mb-3">

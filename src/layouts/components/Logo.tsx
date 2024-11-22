@@ -32,7 +32,7 @@ const Logo = ({ src }: { src?: string }) => {
 
   return (
     <Link href="/" className="navbar-brand inline-block text-2xl">
-      Programming village
+      Góc Nhìn Khác Biệt
     </Link>
   );
 };

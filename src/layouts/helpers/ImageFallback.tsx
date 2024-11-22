@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const ImageFallback = (props: any) => {
-  const { src, fallback, ...rest } = props;
+  const { src, fallback, styleImg, ...rest } = props;
   const [imgSrc, setImgSrc] = useState(src);
 
   useEffect(() => {
@@ -16,6 +16,7 @@ const ImageFallback = (props: any) => {
     <Image
       {...rest}
       src={imgSrc}
+      style={styleImg}
       onError={() => {
         setImgSrc(fallback);
       }}
