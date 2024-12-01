@@ -37,7 +37,7 @@ export const dynamicParams = false;
 // };
 
 const PostSingle = async ({ params }: { params: { slug: string } }) => {
-  const posts: Post[] = getSinglePage(blog_folder);
+  // const posts: Post[] = getSinglePage(blog_folder);
 
   const id = getIdBySlug(params.slug)
 
@@ -59,13 +59,13 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
   } = frontmatter;
   // const similarPosts = similerItems(post, postList, post.slug!);
 
-  function createMarkup() {
-    return { __html: content || '' };
-  }
+  // function createMarkup() {
+  //   return { __html: content || '' };
+  // }
 
-  function contentComponent() {
-    return <div dangerouslySetInnerHTML={createMarkup()} />;
-  }
+  // function contentComponent() {
+  //   return <div dangerouslySetInnerHTML={createMarkup()} />;
+  // }
   return (
     <>
       {/* <SeoMeta
@@ -93,7 +93,7 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                 dangerouslySetInnerHTML={markdownify(title)}
                 className="h2 mb-4"
               />
-              <ul className="mb-4">
+              {/* <ul className="mb-4">
                 <li className="mr-4 inline-block">
                   <a href={`/authors/${slugify(author)}`}>
                     <FaRegUserCircle className={"-mt-1 mr-2 inline-block"} />
@@ -118,9 +118,10 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                     {dateFormat(date)}
                   </li>
                 )}
-              </ul>
+              </ul> */}
               <div className="content mb-10">
-                {contentComponent()}
+                {content}
+                {/* {contentComponent()} */}
               </div>
               {/* <div className="row items-start justify-between">
                 <div className="mb-10 flex items-center lg:col-5 lg:mb-0">
