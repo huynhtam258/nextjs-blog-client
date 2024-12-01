@@ -59,13 +59,13 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
   } = frontmatter;
   // const similarPosts = similerItems(post, postList, post.slug!);
 
-  // function createMarkup() {
-  //   return { __html: content || '' };
-  // }
+  function createMarkup() {
+    return { __html: content || '' };
+  }
 
-  // function contentComponent() {
-  //   return <div dangerouslySetInnerHTML={createMarkup()} />;
-  // }
+  function contentComponent() {
+    return <div dangerouslySetInnerHTML={createMarkup()} />;
+  }
   return (
     <>
       {/* <SeoMeta
@@ -120,8 +120,8 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                 )}
               </ul> */}
               <div className="content mb-10">
-                {content}
-                {/* {contentComponent()} */}
+                {/* {content} */}
+                {contentComponent()}
               </div>
               {/* <div className="row items-start justify-between">
                 <div className="mb-10 flex items-center lg:col-5 lg:mb-0">
