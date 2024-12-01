@@ -31,21 +31,21 @@ const Posts = async (props: IProps) => {
     currentPage = postsResponse.currentPage
   }
   await getPostList()
-  const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
-  const { title, meta_title, description, image } = postIndex.frontmatter;
+  // const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
+  // const { title, meta_title, description, image } = postIndex.frontmatter;
   
   const categoriesResponse = await getCategories()
   const categoryList = categoriesResponse.map((category: any) => category.name)
   
   return (
     <>
-      <SeoMeta
+      {/* <SeoMeta
         title={title}
         meta_title={meta_title}
         description={description}
         image={image}
       />
-      <PageHeader title={postIndex.frontmatter.title} />
+      <PageHeader title={postIndex.frontmatter.title} /> */}
       
       <section className="section">
         <div className="container">
