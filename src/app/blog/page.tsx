@@ -1,14 +1,14 @@
 import config from "@/config/config.json";
-import { getListPage } from "@/lib/contentParser";
-import PageHeader from "@/partials/PageHeader";
+// import { getListPage } from "@/lib/contentParser";
+// import PageHeader from "@/partials/PageHeader";
 import PostSidebar from "@/partials/PostSidebar";
-import SeoMeta from "@/partials/SeoMeta";
+// import SeoMeta from "@/partials/SeoMeta";
 import { Post } from "@/types";
 import { postConverter } from "@/converters/post.converter";
 import { getPosts } from "@/services/post.service";
-import { getCategories } from "@/services/category.service";
+// import { getCategories } from "@/services/category.service";
 import PostList from "@/components/PostList";
-const { blog_folder } = config.settings;
+// const { blog_folder } = config.settings;
 
 interface IProps {
   searchParams: {
@@ -34,8 +34,8 @@ const Posts = async (props: IProps) => {
   // const postIndex: Post = getListPage(`${blog_folder}/_index.md`);
   // const { title, meta_title, description, image } = postIndex.frontmatter;
   
-  const categoriesResponse = await getCategories()
-  const categoryList = categoriesResponse.map((category: any) => category.name)
+  // const categoriesResponse = await getCategories()
+  // const categoryList = categoriesResponse.map((category: any) => category.name)
   
   return (
     <>
@@ -58,10 +58,10 @@ const Posts = async (props: IProps) => {
               />
             </div>
 
-            <PostSidebar
+            {/* <PostSidebar
               categories={categoryList}
               tags={['1', '2', '3', '4', '5', '6']}
-            />
+            /> */}
           </div>
         </div>
       </section>
