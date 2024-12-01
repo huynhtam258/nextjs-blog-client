@@ -119,9 +119,9 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                   </li>
                 )}
               </ul> */}
-              <div className="content mb-10">
-                {/* {content} */}
-                {contentComponent()}
+              <div className="content mb-10" dangerouslySetInnerHTML={markdownify(content)}>
+                {/* {content}
+                {markdownify(`${post.content}` || '')} */}
               </div>
               {/* <div className="row items-start justify-between">
                 <div className="mb-10 flex items-center lg:col-5 lg:mb-0">
