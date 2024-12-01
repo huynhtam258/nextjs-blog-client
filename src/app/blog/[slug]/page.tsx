@@ -1,13 +1,13 @@
-import BlogCard from "@/components/BlogCard";
-import Disqus from "@/components/Disqus";
-import Share from "@/components/Share";
+// import BlogCard from "@/components/BlogCard";
+// import Disqus from "@/components/Disqus";
+// import Share from "@/components/Share";
 import config from "@/config/config.json";
 import { postConverter } from "@/converters/post.converter";
 import ImageFallback from "@/helpers/ImageFallback";
-import MDXContent from "@/helpers/MDXContent";
+// import MDXContent from "@/helpers/MDXContent";
 import { getSinglePage } from "@/lib/contentParser";
 import dateFormat from "@/lib/utils/dateFormat";
-import similerItems from "@/lib/utils/similarItems";
+// import similerItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import SeoMeta from "@/partials/SeoMeta";
 import { getPostDetail, getPosts } from "@/services/post.service";
@@ -122,7 +122,7 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
               <div className="content mb-10">
                 {contentComponent()}
               </div>
-              <div className="row items-start justify-between">
+              {/* <div className="row items-start justify-between">
                 <div className="mb-10 flex items-center lg:col-5 lg:mb-0">
                   <h5 className="mr-3">Tags :</h5>
                   <ul>
@@ -147,22 +147,22 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                     slug={post.slug!}
                   />
                 </div>
-              </div>
-              <Disqus className="mt-20" />
+              </div> */}
+              {/* <Disqus className="mt-20" /> */}
             </article>
           </div>
 
           {/* <!-- Related posts --> */}
-          <div className="section pb-0">
+          {/* <div className="section pb-0">
             <h2 className="h3 mb-12 text-center">Bài viết liên quan</h2>
             <div className="row justify-center">
-              {/* {similarPosts.map((post) => (
+              {similarPosts.map((post) => (
                 <div key={post.slug} className="lg:col-4 mb-7">
                   <BlogCard data={post} />
                 </div>
-              ))} */}
+              ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </>
