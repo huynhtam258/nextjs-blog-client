@@ -20,6 +20,7 @@ export interface INavigationLink {
   name: string;
   url: string;
   hasChildren?: boolean;
+  hide?: boolean;
   children?: IChildNavigationLink[];
 }
 
@@ -76,7 +77,7 @@ const Header = () => {
           id="nav-menu"
           className="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
         >
-          {main.map((menu, i) => (
+          {main.filter(menuItem => !menuItem.hide).map((menu, i) => (
             <React.Fragment key={`menu-${i}`}>
               {menu.hasChildren ? (
                 <li className="nav-item nav-dropdown group relative">

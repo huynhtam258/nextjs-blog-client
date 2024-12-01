@@ -15,6 +15,7 @@
     {
       "name": "Nội dung khác",
       "url": "",
+      "hide": true,
       "hasChildren": true,
       "children": [
         {
