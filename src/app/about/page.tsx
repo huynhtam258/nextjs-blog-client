@@ -4,7 +4,7 @@ import { getListPage } from "@/lib/contentParser";
 import { markdownify } from "@/lib/utils/textConverter";
 import SeoMeta from "@/partials/SeoMeta";
 import { RegularPage } from "@/types";
-
+import Image from "next/image"; 
 const About = () => {
   const data: RegularPage = getListPage("about/_index.md");
   const { frontmatter, content } = data;
@@ -22,7 +22,14 @@ const About = () => {
         <div className="container">
           <div className="row justify-center">
             <div className="text-center md:col-10 lg:col-7">
-              {image && (
+              <img src="/images/banner.png" alt="" />
+            {/* <Image
+              src="/images/banner.png"
+              alt="banner"
+              width={200}
+              height={200}
+            /> */}
+              {/* {image && (
                 <ImageFallback
                   className="mx-auto mb-6 rounded-lg"
                   src={image}
@@ -30,10 +37,10 @@ const About = () => {
                   height={200}
                   alt={title}
                 />
-              )}
+              )} */}
               <h2
                 dangerouslySetInnerHTML={markdownify(title)}
-                className="h3 mb-6"
+                className="h3 mt-12 mb-6"
               />
               <div className="content">
                 <MDXContent content={content} />
