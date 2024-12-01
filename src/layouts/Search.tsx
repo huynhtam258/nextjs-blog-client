@@ -12,6 +12,9 @@ import {
 } from "react-icons/fa/index.js";
 import ImageFallback from "./helpers/ImageFallback";
 import { getPosts } from "@/services/post.service";
+import { Post } from "@/types";
+import { postConverter } from "@/converters/post.converter";
+import PostList from "./components/PostList";
 
 const { summary_length, blog_folder } = config.settings;
 
@@ -34,7 +37,7 @@ const Search = ({ searchList }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputVal, setInputVal] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-
+  const [postResults, setPostResults] = useState<Post[]>([])
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
   };
@@ -58,12 +61,17 @@ const Search = ({ searchList }: Props) => {
   }, []);
 
   function onSearchData () {
-    // console.log(123456789);
-    console.log(inputVal);
-    getPosts({ search: inputVal })
-    
-    
+    getPosts({ search: inputVal, page: 1 }).then((postResponses) => {
+      const posts = postResponses.data.map((post: any) => postConverter(post))
+      setPostResults(posts)
+    })
   }
+
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onSearchData()
+    }
+  };
 
   // useEffect(() => {
   //   let inputResult = inputVal.length > 2 ? fuse.search(inputVal) : [];
@@ -94,6 +102,7 @@ const Search = ({ searchList }: Props) => {
                 name="search"
                 value={inputVal}
                 onChange={handleChange}
+                onKeyUp={handleKeyUp}
                 autoComplete="off"
                 autoFocus
                 ref={inputRef}
@@ -106,7 +115,7 @@ const Search = ({ searchList }: Props) => {
         </div>
 
         <div className="row">
-          {searchResults?.length < 1 ? (
+          {postResults?.length < 1 ? (
             <div className="mx-auto pt-5 text-center">
               <ImageFallback
                 className="mx-auto mb-6"
@@ -129,60 +138,66 @@ const Search = ({ searchList }: Props) => {
               </p> */}
             </div>
           ) : (
-            searchResults?.map(({ item }, index) => (
-              <div className="mb-12 md:col-6 lg:col-4" key={`search-${index}`}>
-                <div className="bg-body dark:bg-darkmode-body">
-                  {item.frontmatter.image && (
-                    <ImageFallback
-                      className="mb-6 w-full rounded"
-                      src={item.frontmatter.image}
-                      alt={item.frontmatter.title}
-                      width={445}
-                      height={230}
-                    />
-                  )}
-                  <h4 className="mb-3">
-                    <Link href={`/${blog_folder}/${item.slug}`}>
-                      {item.frontmatter.title}
-                    </Link>
-                  </h4>
-                  <ul className="mb-4">
-                    <li className="mr-4 inline-block">
-                      <a href={`/authors/${slugify(item.frontmatter.author)}`}>
-                        <FaRegUserCircle
-                          className={"-mt-1 mr-2 inline-block"}
-                        />
-                        {humanize(item.frontmatter.author)}
-                      </a>
-                    </li>
-                    <li className="mr-4 inline-block">
-                      <FaRegFolder className={"-mt-1 mr-2 inline-block"} />
-                      {item.frontmatter.categories.map(
-                        (category: string, index: number) => (
-                          <a
-                            href={`/categories/${slugify(category)}`}
-                            key={category}
-                          >
-                            {humanize(category)}
-                            {index !== item.frontmatter.categories.length - 1 &&
-                              ", "}
-                          </a>
-                        ),
-                      )}
-                    </li>
-                  </ul>
-                  <p className="mb-6">
-                    {plainify(item.content?.slice(0, Number(summary_length)))}
-                  </p>
-                  <a
-                    className="btn btn-outline-primary btn-sm"
-                    href={`/${blog_folder}/${item.slug}`}
-                  >
-                    read more
-                  </a>
-                </div>
-              </div>
-            ))
+            <PostList
+              postList={postResults}
+              totalPages={1}
+              currentPage={1}
+              classColumn={'md:col-4'}
+            />
+            // searchResults?.map(({ item }, index) => (
+            //   <div className="mb-12 md:col-6 lg:col-4" key={`search-${index}`}>
+            //     <div className="bg-body dark:bg-darkmode-body">
+            //       {item.frontmatter.image && (
+            //         <ImageFallback
+            //           className="mb-6 w-full rounded"
+            //           src={item.frontmatter.image}
+            //           alt={item.frontmatter.title}
+            //           width={445}
+            //           height={230}
+            //         />
+            //       )}
+            //       <h4 className="mb-3">
+            //         <Link href={`/${blog_folder}/${item.slug}`}>
+            //           {item.frontmatter.title}
+            //         </Link>
+            //       </h4>
+            //       <ul className="mb-4">
+            //         <li className="mr-4 inline-block">
+            //           <a href={`/authors/${slugify(item.frontmatter.author)}`}>
+            //             <FaRegUserCircle
+            //               className={"-mt-1 mr-2 inline-block"}
+            //             />
+            //             {humanize(item.frontmatter.author)}
+            //           </a>
+            //         </li>
+            //         <li className="mr-4 inline-block">
+            //           <FaRegFolder className={"-mt-1 mr-2 inline-block"} />
+            //           {item.frontmatter.categories.map(
+            //             (category: string, index: number) => (
+            //               <a
+            //                 href={`/categories/${slugify(category)}`}
+            //                 key={category}
+            //               >
+            //                 {humanize(category)}
+            //                 {index !== item.frontmatter.categories.length - 1 &&
+            //                   ", "}
+            //               </a>
+            //             ),
+            //           )}
+            //         </li>
+            //       </ul>
+            //       <p className="mb-6">
+            //         {plainify(item.content?.slice(0, Number(summary_length)))}
+            //       </p>
+            //       <a
+            //         className="btn btn-outline-primary btn-sm"
+            //         href={`/${blog_folder}/${item.slug}`}
+            //       >
+            //         read more
+            //       </a>
+            //     </div>
+            //   </div>
+            // ))
           )}
         </div>
       </div>
