@@ -12,7 +12,7 @@ const Home = async () => {
 
   const getPostList = async () => {
     const postsResponse = await getPosts({ page: currentPage })
-    postList = postsResponse.data.map((post: any): Post => {
+    postList = (postsResponse.data || []).map((post: any): Post => {
       return postConverter(post)
     })
     totalPages = postsResponse.lastPage
