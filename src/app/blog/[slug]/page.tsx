@@ -93,6 +93,7 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
                 dangerouslySetInnerHTML={markdownify(title)}
                 className="h2 mb-4"
               />
+              <p dangerouslySetInnerHTML={markdownify(description)} className="text-gray-700"></p>
               {/* <ul className="mb-4">
                 <li className="mr-4 inline-block">
                   <a href={`/authors/${slugify(author)}`}>

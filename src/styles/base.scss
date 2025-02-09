@@ -53,3 +53,18 @@ strong {
 code {
   @apply after:border-none;
 }
+
+
+@mixin ellipsis($lines) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+.blog-card {
+  &-description {
+    @include ellipsis(2);
+  }
+}
