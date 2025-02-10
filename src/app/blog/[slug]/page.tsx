@@ -9,6 +9,7 @@ import { getSinglePage } from "@/lib/contentParser";
 import dateFormat from "@/lib/utils/dateFormat";
 // import similerItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
+import SeoMeta from "@/partials/SeoMeta";
 // import SeoMeta from "@/partials/SeoMeta";
 import { getPostDetail, getPosts } from "@/services/post.service";
 import { Post } from "@/types";
@@ -68,12 +69,11 @@ const PostSingle = async ({ params }: { params: { slug: string } }) => {
   }
   return (
     <>
-      {/* <SeoMeta
+      <SeoMeta
         title={title}
-        meta_title={meta_title}
         description={description}
         image={image}
-      /> */}
+      />
       <section className="section pt-7">
         <div className="container">
           <div className="row justify-center">

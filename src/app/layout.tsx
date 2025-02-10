@@ -32,6 +32,7 @@ export default function RootLayout(
           }&display=swap`}
           rel="stylesheet"
         />
+        <title>Góc nhìn khác biệt</title>
       </head>
       <body>
         <Providers>
